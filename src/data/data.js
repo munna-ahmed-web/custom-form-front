@@ -15,3 +15,25 @@ export const navLinkData = [
     link: "/contact",
   },
 ];
+
+export const questionType = [
+  {
+    label: "String",
+    value: "string",
+  },
+  {
+    label: "Integer",
+    value: "int",
+  },
+];
+
+export const templateAccessTypes = [
+  {
+    label: "Public",
+    value: "true",
+  },
+  {
+    label: "Private",
+    value: "false",
+  },
+];

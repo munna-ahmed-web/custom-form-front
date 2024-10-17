@@ -6,6 +6,9 @@ import UserLayout from "../layout/UserLayout";
 import ContactUs from "../pages/contact/ContactUs";
 import NotFound from "../pages/not-found/NotFound";
 import UserDasboard from "../pages/dashboard/UserDasboard";
+import { AdminGuard } from "../components/auth/AdminGuard";
+import AuthGuard from "../components/auth/AuthGuard";
+import CreateTemplate from "../pages/template/CreateTemplate";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +25,27 @@ const router = createBrowserRouter([
       },
       {
         path: "dashboard",
-        element: <UserDasboard />,
+        element: (
+          <AdminGuard>
+            <UserDasboard />
+          </AdminGuard>
+        ),
+      },
+      {
+        path: "template/create",
+        element: (
+          <AuthGuard>
+            <CreateTemplate />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: "template/:id",
+        element: (
+          <AuthGuard>
+            <CreateTemplate />
+          </AuthGuard>
+        ),
       },
       {
         path: "*",

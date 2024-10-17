@@ -6,17 +6,26 @@ import { CiMenuFries } from "react-icons/ci";
 import { IoIosArrowUp } from "react-icons/io";
 import { TbLogout2 } from "react-icons/tb";
 import { FiUser } from "react-icons/fi";
+import { FaWpforms } from "react-icons/fa";
 import { IoSettingsOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { addUserInfo } from "../../store/userInfoSlice";
+import { addUserInfo, logOutInfo } from "../../store/userInfoSlice";
 import { navLinkData } from "../../data/data";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const ResponsiveNavbar = () => {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userInfo);
+  const navigate = useNavigate();
+
+  const logOut = () => {
+    logOutInfo();
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -26,12 +35,14 @@ const ResponsiveNavbar = () => {
   }, []);
 
   return (
-    <nav className="flex items-center justify-between w-full relative mt-3 px-6">
-      <h1 className="font-bold h-8 cursor-pointer">Custom Form</h1>
+    <nav className="flex items-center justify-between w-full relative mt-3 px-6 mb-3">
+      <Link to="/">
+        <h1 className="font-bold h-8 cursor-pointer">Custom Form</h1>
+      </Link>
       <ul className="items-center gap-[20px] text-[1rem] text-text lg:flex hidden">
-        {navLinkData.map((item) => {
+        {navLinkData.map((item, idx) => {
           return (
-            <li>
+            <li key={idx}>
               <NavLink
                 to={item.link}
                 className={({ isActive }) => {
@@ -48,14 +59,6 @@ const ResponsiveNavbar = () => {
       </ul>
 
       <div className="flex items-center gap-[10px]">
-        <div className="relative lg:flex hidden">
-          <input
-            className="py-1.5 pr-4 border border-text pl-10 rounded-full outline-none focus:border-primary"
-            placeholder="Search..."
-          />
-          <IoIosSearch className="absolute top-[9px] left-3 text-text text-[1.3rem]" />
-        </div>
-
         <div>
           <div
             className="flex items-center gap-[10px] cursor-pointer relative"
@@ -81,10 +84,12 @@ const ResponsiveNavbar = () => {
                   : "translate-y-[10px] opacity-0 z-[-1]"
               } bg-white w-max rounded-md boxShadow absolute top-[45px] right-0 p-[10px] flex flex-col transition-all duration-300 gap-[5px]`}
             >
-              <p className="flex items-center gap-[5px] rounded-md p-[8px] pr-[45px] py-[3px] text-[1rem] text-gray-600 hover:bg-gray-50">
-                <FiUser />
-                View Profile
-              </p>
+              <Link to={"/user/templates"}>
+                <p className="flex items-center gap-[5px] rounded-md p-[8px] pr-[45px] py-[3px] text-[1rem] text-gray-600 hover:bg-gray-50">
+                  <FaWpforms />
+                  Templates
+                </p>
+              </Link>
               <p className="flex items-center gap-[5px] rounded-md p-[8px] pr-[45px] py-[3px] text-[1rem] text-gray-600 hover:bg-gray-50">
                 <IoSettingsOutline />
                 Settings
@@ -95,7 +100,10 @@ const ResponsiveNavbar = () => {
               </p>
 
               <div className="mt-3 border-t border-gray-200 pt-[5px]">
-                <p className="flex items-center gap-[5px] rounded-md p-[8px] pr-[45px] py-[3px] text-[1rem] text-red-500 hover:bg-red-50">
+                <p
+                  onClick={logOut}
+                  className="flex items-center gap-[5px] rounded-md p-[8px] pr-[45px] py-[3px] text-[1rem] text-red-500 hover:bg-red-50"
+                >
                   <TbLogout2 />
                   Logout
                 </p>
@@ -131,9 +139,9 @@ const ResponsiveNavbar = () => {
           <IoIosSearch className="absolute top-[9px] left-5 text-text text-[1.3rem]" />
         </div>
         <ul className="items-center gap-[20px] text-[1rem] text-white flex flex-col">
-          {navLinkData.map((item) => {
+          {navLinkData.map((item, idx) => {
             return (
-              <li>
+              <li key={idx + 11}>
                 <NavLink
                   to={item.link}
                   className="hover:border-b-primary border-b-[2px] border-transparent transition-all duration-500 cursor-pointer capitalize"

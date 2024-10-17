@@ -4,6 +4,7 @@ const initState = {
   name: "",
   email: "",
   accessToken: "",
+  isAdmin: false,
 };
 const userInfoSlice = createSlice({
   name: "userInfo",
@@ -14,9 +15,17 @@ const userInfoSlice = createSlice({
       state.name = action.payload.name;
       state.email = action.payload.email;
       state.accessToken = action.payload.accessToken;
+      state.isAdmin = action.payload.isAdmin;
+    },
+    logOutInfo: (state) => {
+      state.id = "";
+      state.name = "";
+      state.email = "";
+      state.accessToken = "";
+      state.isAdmin = false;
     },
   },
 });
 
-export const { addUserInfo } = userInfoSlice.actions;
+export const { addUserInfo, logOutInfo } = userInfoSlice.actions;
 export default userInfoSlice.reducer;
