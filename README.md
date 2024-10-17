@@ -22,6 +22,7 @@ This is the frontend portion of our Customizable Forms Application, a web-based 
 - React Router for navigation
 - Axios for API calls
 - Tailwind CSS for styling
+- cloudinary for image storage server
 
 ## Project Structure
 
