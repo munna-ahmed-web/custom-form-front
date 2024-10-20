@@ -84,7 +84,7 @@ const ResponsiveNavbar = () => {
                   : "translate-y-[10px] opacity-0 z-[-1]"
               } bg-white w-max rounded-md boxShadow absolute top-[45px] right-0 p-[10px] flex flex-col transition-all duration-300 gap-[5px]`}
             >
-              <Link to={"/user/templates"}>
+              <Link to={`/template/user/${user.id}`}>
                 <p className="flex items-center gap-[5px] rounded-md p-[8px] pr-[45px] py-[3px] text-[1rem] text-gray-600 hover:bg-gray-50">
                   <FaWpforms />
                   Templates

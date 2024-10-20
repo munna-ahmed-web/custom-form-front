@@ -81,4 +81,8 @@ export const topics = [
   { value: "physics", label: "Physics" },
   { value: "seo", label: "SEO" },
   { value: "machine-learning", label: "Machine Learning" },
+  { value: "job", label: "Job" },
+  { value: "recruitment", label: "Recruitment" },
+  { value: "customer", label: "Customer" },
+  { value: "feedback", label: "Feedback" },
 ];

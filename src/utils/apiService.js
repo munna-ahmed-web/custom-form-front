@@ -27,11 +27,9 @@ export const updateData = async (url, body) => {
   }
 };
 
-export const deleteData = (url, selectedIds) => {
+export const deleteData = (url) => {
   try {
-    const response = http.delete(url, {
-      data: selectedIds,
-    });
+    const response = http.delete(url);
     return response;
   } catch (error) {
     throw error;

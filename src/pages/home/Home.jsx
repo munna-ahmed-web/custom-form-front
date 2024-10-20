@@ -32,8 +32,14 @@ const Home = () => {
     fetchTemplates();
   }, [searchTerm]);
 
+  const publicTemplates = templateList.filter((template) => {
+    if (template.isPublic) {
+      return template;
+    }
+  });
+
   return (
-    <div className="bg-gray-100">
+    <div className="bg-gray-100 min-h-screen">
       <div className="w-[75%] mx-auto">
         <SearchSection handleChange={handleSearch} value={searchTerm} />
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
@@ -46,7 +52,7 @@ const Home = () => {
               />
             </div>
           </Link>
-          {templateList.map((template) => (
+          {publicTemplates?.map((template) => (
             <Card
               key={template._id}
               imgUrl={template.imageUrl}

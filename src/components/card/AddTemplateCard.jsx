@@ -9,12 +9,12 @@ const AddTemplateCard = ({ imgUrl, title, description }) => {
         className="w-full h-[200px] object-cover rounded-t-xl"
       />
 
-      <Link>
+      <Link to="/template/create">
         <div className="p-4 cursor-pointer">
-          <h1 className="text-[1.3rem] text-primary font-bold leading-[34px]">
-            {title?.length > 50 ? `${title.slice(0, 20)}...` : title}
+          <h1 className="text-[1.1rem] text-gray-600 font-bold leading-[20px]">
+            {title?.length > 20 ? `${title.slice(0, 20)}...` : title}
           </h1>
-          <p className="text-[0.9rem] text-primary">
+          <p className="text-[0.9rem] text-gray-600">
             {description?.length > 50
               ? `${description.slice(0, 65)}...`
               : description}

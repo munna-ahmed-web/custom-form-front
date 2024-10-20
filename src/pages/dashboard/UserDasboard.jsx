@@ -99,13 +99,13 @@ const UserDasboard = () => {
                 Status
               </th>
               <th scope="col" className="px-6 py-3">
-                Action
-              </th>
-              <th scope="col" className="px-6 py-3">
                 Admin
               </th>
               <th scope="col" className="px-6 py-3">
                 Disable
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Action
               </th>
             </tr>
           </thead>
@@ -128,14 +128,6 @@ const UserDasboard = () => {
                   </td>
                   <td className="px-6 py-4">
                     {user.isActive ? "Active" : "Disabled"}
-                  </td>
-                  <td className="px-6 py-4">
-                    <button
-                      className="cursor-pointer px-3"
-                      onClick={(e) => handleDelete(user)}
-                    >
-                      <MdDelete size={25} className="text-red-500 " />
-                    </button>
                   </td>
                   <td className="px-6 py-4">
                     {user.isAdmin ? (
@@ -170,6 +162,14 @@ const UserDasboard = () => {
                         <FaToggleOn size={25} className="text-red-400" />
                       </button>
                     )}
+                  </td>
+                  <td className="px-6 py-4">
+                    <button
+                      className="cursor-pointer px-3"
+                      onClick={(e) => handleDelete(user)}
+                    >
+                      <MdDelete size={25} className="text-red-500 " />
+                    </button>
                   </td>
                 </tr>
               ))}

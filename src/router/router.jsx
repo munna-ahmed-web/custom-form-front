@@ -9,6 +9,7 @@ import UserDasboard from "../pages/dashboard/UserDasboard";
 import { AdminGuard } from "../components/auth/AdminGuard";
 import AuthGuard from "../components/auth/AuthGuard";
 import CreateTemplate from "../pages/template/CreateTemplate";
+import TemplateManageByUser from "../pages/template/TemplateManageByUser";
 
 const router = createBrowserRouter([
   {
@@ -40,10 +41,18 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "template/:id",
+        path: "template/create/:id",
         element: (
           <AuthGuard>
             <CreateTemplate />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: "template/user/:id",
+        element: (
+          <AuthGuard>
+            <TemplateManageByUser />
           </AuthGuard>
         ),
       },

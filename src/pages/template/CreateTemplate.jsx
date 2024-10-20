@@ -3,7 +3,11 @@ import { questionType, templateAccessTypes } from "../../data/data";
 import { uploadImageToCloudinary } from "../../api/imageRequest";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { createTemplate, getTemplateById } from "../../api/templateRequest";
+import {
+  createTemplate,
+  getTemplateById,
+  updateTemplate,
+} from "../../api/templateRequest";
 import { useParams } from "react-router-dom";
 import Select from "react-select";
 import { topics } from "../../data/topic";
@@ -32,13 +36,16 @@ const CreateTemplate = () => {
 
   const handleAddQuestion = () => {
     const lastQs = questionList[questionList.length - 1];
-
-    if (lastQs.question && lastQs.isActive) {
-      setQuestionList((prev) => {
-        return [...prev, initialQuestion];
-      });
+    if (questionList.length >= 8) {
+      toast.error("You can not add more than 8");
     } else {
-      toast.error("Please fill up last question");
+      if (lastQs.question && lastQs.isActive) {
+        setQuestionList((prev) => {
+          return [...prev, initialQuestion];
+        });
+      } else {
+        toast.error("Please fill up last question");
+      }
     }
   };
 
@@ -93,14 +100,25 @@ const CreateTemplate = () => {
       userId: user.id,
       topic: [...topicsPayload],
     };
+
+    const patchPayload = {
+      ...templateState,
+      questions: questionList,
+    };
+
     if (!payload.userId) {
       return toast.error("You are not a valid user");
     }
+    const loadId = toast.loading("loading...");
     try {
-      const loadId = toast.loading("loading...");
-      await createTemplate(payload);
+      if (id) {
+        await updateTemplate(id, patchPayload);
+      } else {
+        await createTemplate(payload);
+      }
       toast.dismiss(loadId);
       toast.success("Success");
+      setSelectedTopics([]);
       setTemplateState(initialTempState);
       setQuestionList([initialQuestion]);
     } catch (error) {
@@ -113,7 +131,6 @@ const CreateTemplate = () => {
     const fetchTemplate = async () => {
       try {
         const { data } = await getTemplateById(id);
-        console.log(data);
         const questionsValue = data.questions;
         setTemplateState((prev) => {
           return {
@@ -265,7 +282,7 @@ const CreateTemplate = () => {
               className="bg-primary px-3 py-2 rounded-md text-white hover:bg-[#39339e]"
               onClick={handleSubmit}
             >
-              Submit
+              {id ? "Update" : "Submit"}
             </button>
           </div>
         </div>
