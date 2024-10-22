@@ -57,6 +57,11 @@ const ResponsiveNavbar = () => {
           );
         })}
       </ul>
+      {!user.name && (
+        <div className="bg-primary text-white px-4 py-2 rounded-md cursor-pointer">
+          <Link to="/login">Log in</Link>
+        </div>
+      )}
 
       <div className="flex items-center gap-[10px]">
         <div>
@@ -64,15 +69,16 @@ const ResponsiveNavbar = () => {
             className="flex items-center gap-[10px] cursor-pointer relative"
             onClick={() => setAccountMenuOpen(!accountMenuOpen)}
           >
-            <div className="relative">
-              <img
-                src="https://img.freepik.com/free-photo/portrait-man-laughing_23-2148859448.jpg?t=st=1724605498~exp=1724609098~hmac=7f6fc106bae2c17b0c93af1b2e5483d9d8368f3e51284aaec7c7d50590d2bae5&w=740"
-                alt="avatar"
-                className="w-[35px] h-[35px] rounded-full object-cover"
-              />
-              <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute bottom-[0px] right-0 border-2 border-white"></div>
-            </div>
-
+            {user?.name && (
+              <div className="relative">
+                <img
+                  src="https://img.freepik.com/free-photo/portrait-man-laughing_23-2148859448.jpg?t=st=1724605498~exp=1724609098~hmac=7f6fc106bae2c17b0c93af1b2e5483d9d8368f3e51284aaec7c7d50590d2bae5&w=740"
+                  alt="avatar"
+                  className="w-[35px] h-[35px] rounded-full object-cover"
+                />
+                <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute bottom-[0px] right-0 border-2 border-white"></div>
+              </div>
+            )}
             <h1 className="text-[1rem] font-[400] text-gray-600 sm:block hidden">
               {user.name && user.name}
             </h1>

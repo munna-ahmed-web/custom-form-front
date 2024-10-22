@@ -10,6 +10,8 @@ import { AdminGuard } from "../components/auth/AdminGuard";
 import AuthGuard from "../components/auth/AuthGuard";
 import CreateTemplate from "../pages/template/CreateTemplate";
 import TemplateManageByUser from "../pages/template/TemplateManageByUser";
+import CreateForm from "../pages/form/CreateForm";
+import Answers from "../pages/answer/Answers";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +57,14 @@ const router = createBrowserRouter([
             <TemplateManageByUser />
           </AuthGuard>
         ),
+      },
+      {
+        path: "form/:templateId",
+        element: <CreateForm />,
+      },
+      {
+        path: "answer/:templateId",
+        element: <Answers />,
       },
       {
         path: "*",
