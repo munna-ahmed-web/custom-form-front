@@ -8,22 +8,25 @@ const Answers = () => {
   const [answersList, setAnswersList] = useState([]);
   useEffect(() => {
     const fetchAnswersList = async () => {
+      const loadId = toast.loading("Loading...");
       try {
         if (userId) {
           const res = await getFormsByUserId(userId);
+          toast.dismiss(loadId);
           return setAnswersList(res.data);
         }
         const res = await getFormsByTemplate(templateId);
+        toast.dismiss(loadId);
         setAnswersList(res.data);
       } catch (error) {
-        toast.error("Something went wrong");
+        toast.error("Something wrong while fetching forms");
+        console.log(error);
       }
     };
 
     fetchAnswersList();
   }, [templateId, userId]);
-  console.log(templateId);
-  console.log("user id", userId);
+
   return (
     <div className="bg-gray-100 min-h-screen">
       <div className="flex justify-center">

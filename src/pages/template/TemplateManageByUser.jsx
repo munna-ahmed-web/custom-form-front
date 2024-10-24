@@ -16,7 +16,7 @@ const TemplateManageByUser = () => {
       toast.dismiss(loadId);
     } catch (error) {
       toast.dismiss(loadId);
-      toast.error("Something wrong");
+      toast.error("Something wrong while fetching templates");
       console.log(error);
     }
   };
