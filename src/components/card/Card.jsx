@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Card = ({ imgUrl, title, description, id }) => {
   return (
-    <div className="min-w-[60%] max-w-[100%] relative bg-white shadow-md rounded-xl">
+    <div className="min-w-[60%] max-w-[100%] mb-1 relative bg-white shadow-md rounded-xl">
       <img
         src={imgUrl}
         alt="image"
@@ -16,7 +16,7 @@ const Card = ({ imgUrl, title, description, id }) => {
           </h1>
           <p className="text-[0.9rem] text-gray-600">
             {description?.length > 50
-              ? `${description.slice(0, 65)}...`
+              ? `${description.slice(0, 55)}...`
               : description}
           </p>
         </div>

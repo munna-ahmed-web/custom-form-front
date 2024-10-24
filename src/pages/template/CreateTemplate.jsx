@@ -135,6 +135,7 @@ const CreateTemplate = () => {
         setTemplateState((prev) => {
           return {
             ...prev,
+            topic: data.topic || prev.topic,
             title: data.title || prev.title,
             description: data.description || prev.description,
             userId: data.userId || prev.userId,

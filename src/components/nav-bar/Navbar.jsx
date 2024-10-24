@@ -63,72 +63,80 @@ const ResponsiveNavbar = () => {
         </div>
       )}
 
-      <div className="flex items-center gap-[10px]">
-        <div>
-          <div
-            className="flex items-center gap-[10px] cursor-pointer relative"
-            onClick={() => setAccountMenuOpen(!accountMenuOpen)}
-          >
-            {user?.name && (
-              <div className="relative">
-                <img
-                  src="https://img.freepik.com/free-photo/portrait-man-laughing_23-2148859448.jpg?t=st=1724605498~exp=1724609098~hmac=7f6fc106bae2c17b0c93af1b2e5483d9d8368f3e51284aaec7c7d50590d2bae5&w=740"
-                  alt="avatar"
-                  className="w-[35px] h-[35px] rounded-full object-cover"
-                />
-                <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute bottom-[0px] right-0 border-2 border-white"></div>
-              </div>
-            )}
-            <h1 className="text-[1rem] font-[400] text-gray-600 sm:block hidden">
-              {user.name && user.name}
-            </h1>
-
+      {user.id && (
+        <div className="flex items-center gap-[10px]">
+          <div>
             <div
-              className={`${
-                accountMenuOpen
-                  ? "translate-y-0 opacity-100 z-[1]"
-                  : "translate-y-[10px] opacity-0 z-[-1]"
-              } bg-white w-max rounded-md boxShadow absolute top-[45px] right-0 p-[10px] flex flex-col transition-all duration-300 gap-[5px]`}
+              className="flex items-center gap-[10px] cursor-pointer relative"
+              onClick={() => setAccountMenuOpen(!accountMenuOpen)}
             >
-              <Link to={`/template/user/${user.id}`}>
+              {user?.name && (
+                <div className="relative">
+                  <img
+                    src="https://img.freepik.com/free-photo/portrait-man-laughing_23-2148859448.jpg?t=st=1724605498~exp=1724609098~hmac=7f6fc106bae2c17b0c93af1b2e5483d9d8368f3e51284aaec7c7d50590d2bae5&w=740"
+                    alt="avatar"
+                    className="w-[35px] h-[35px] rounded-full object-cover"
+                  />
+                  <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute bottom-[0px] right-0 border-2 border-white"></div>
+                </div>
+              )}
+              <h1 className="text-[1rem] font-[400] text-gray-600 sm:block hidden">
+                {user.name && user.name}
+              </h1>
+
+              <div
+                className={`${
+                  accountMenuOpen
+                    ? "translate-y-0 opacity-100 z-[1]"
+                    : "translate-y-[10px] opacity-0 z-[-1]"
+                } bg-white w-max rounded-md boxShadow absolute top-[45px] right-0 p-[10px] flex flex-col transition-all duration-300 gap-[5px]`}
+              >
+                <Link to={`/template/user/${user.id}`}>
+                  <p className="flex items-center gap-[5px] rounded-md p-[8px] pr-[45px] py-[3px] text-[1rem] text-gray-600 hover:bg-gray-50">
+                    <FaWpforms />
+                    Templates
+                  </p>
+                </Link>
+                <Link to={`/answer/user/${user.id}`}>
+                  <p className="flex items-center gap-[5px] rounded-md p-[8px] pr-[45px] py-[3px] text-[1rem] text-gray-600 hover:bg-gray-50">
+                    <FaWpforms />
+                    Forms
+                  </p>
+                </Link>
                 <p className="flex items-center gap-[5px] rounded-md p-[8px] pr-[45px] py-[3px] text-[1rem] text-gray-600 hover:bg-gray-50">
-                  <FaWpforms />
-                  Templates
+                  <IoSettingsOutline />
+                  Settings
                 </p>
-              </Link>
-              <p className="flex items-center gap-[5px] rounded-md p-[8px] pr-[45px] py-[3px] text-[1rem] text-gray-600 hover:bg-gray-50">
-                <IoSettingsOutline />
-                Settings
-              </p>
-              <p className="flex items-center gap-[5px] rounded-md p-[8px] pr-[45px] py-[3px] text-[1rem] text-gray-600 hover:bg-gray-50">
-                <FiUser />
-                View Profile
-              </p>
+                <p className="flex items-center gap-[5px] rounded-md p-[8px] pr-[45px] py-[3px] text-[1rem] text-gray-600 hover:bg-gray-50">
+                  <FiUser />
+                  View Profile
+                </p>
 
-              <div className="mt-3 border-t border-gray-200 pt-[5px]">
-                <p
-                  onClick={logOut}
-                  className="flex items-center gap-[5px] rounded-md p-[8px] pr-[45px] py-[3px] text-[1rem] text-red-500 hover:bg-red-50"
-                >
-                  <TbLogout2 />
-                  Logout
-                </p>
+                <div className="mt-3 border-t border-gray-200 pt-[5px]">
+                  <p
+                    onClick={logOut}
+                    className="flex items-center gap-[5px] rounded-md p-[8px] pr-[45px] py-[3px] text-[1rem] text-red-500 hover:bg-red-50"
+                  >
+                    <TbLogout2 />
+                    Logout
+                  </p>
+                </div>
               </div>
+
+              <IoIosArrowUp
+                className={`${
+                  accountMenuOpen ? "rotate-0" : "rotate-[180deg]"
+                } transition-all duration-300 text-gray-600 sm:block hidden`}
+              />
             </div>
-
-            <IoIosArrowUp
-              className={`${
-                accountMenuOpen ? "rotate-0" : "rotate-[180deg]"
-              } transition-all duration-300 text-gray-600 sm:block hidden`}
-            />
           </div>
-        </div>
 
-        <CiMenuFries
-          className="text-[1.6rem] text-textc cursor-pointer lg:hidden flex"
-          onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
-        />
-      </div>
+          <CiMenuFries
+            className="text-[1.6rem] text-textc cursor-pointer lg:hidden flex"
+            onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
+          />
+        </div>
+      )}
 
       <aside
         className={` ${

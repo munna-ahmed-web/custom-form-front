@@ -64,7 +64,19 @@ const router = createBrowserRouter([
       },
       {
         path: "answer/:templateId",
-        element: <Answers />,
+        element: (
+          <AuthGuard>
+            <Answers />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: "answer/user/:userId",
+        element: (
+          <AuthGuard>
+            <Answers />
+          </AuthGuard>
+        ),
       },
       {
         path: "*",

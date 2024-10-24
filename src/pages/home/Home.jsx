@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import SearchSection from "./SearchSection";
-import { getTemplates, searchTemplates } from "../../api/templateRequest";
+import { searchTemplates } from "../../api/templateRequest";
 import toast from "react-hot-toast";
 import Card from "../../components/card/Card";
 import { Link } from "react-router-dom";
@@ -18,25 +18,20 @@ const Home = () => {
     const fetchTemplates = async () => {
       const loadId = toast.loading("loading...");
       try {
-        // const res = await getTemplates();
         const res = await searchTemplates(searchTerm);
         setTemplateList(res.data);
         toast.dismiss(loadId);
-        console.log(res.data);
       } catch (error) {
         toast.dismiss(loadId);
         console.log(error);
         toast.error("Something went wrong to get templates");
+        setLoading(false);
       }
     };
     fetchTemplates();
   }, [searchTerm]);
 
-  const publicTemplates = templateList.filter((template) => {
-    if (template.isPublic) {
-      return template;
-    }
-  });
+  const publicTemplates = templateList.filter((template) => template.isPublic);
 
   return (
     <div className="bg-gray-100 min-h-screen">

@@ -4,7 +4,10 @@ import { FaToggleOn } from "react-icons/fa6";
 import { FaToggleOff } from "react-icons/fa6";
 import { deleteTemplate, updateTemplate } from "../../api/templateRequest";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+//icons
+import { FaExternalLinkAlt } from "react-icons/fa";
 
 const TemplateTableList = ({ templateList = [], fetchTemplate }) => {
   const navigate = useNavigate();
@@ -58,6 +61,9 @@ const TemplateTableList = ({ templateList = [], fetchTemplate }) => {
                 Total Question
               </th>
               <th scope="col" className="px-6 py-3">
+                Form
+              </th>
+              <th scope="col" className="px-6 py-3">
                 Public
               </th>
 
@@ -89,6 +95,18 @@ const TemplateTableList = ({ templateList = [], fetchTemplate }) => {
                     className="py-4 text-center font-medium text-gray-900 whitespace-nowrap dark:text-white"
                   >
                     {template.questions.length}
+                  </th>
+                  <th
+                    scope="row"
+                    className="py-4 text-center font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    <Link
+                      to={`/answer/${template._id}`}
+                      className="flex items-center gap-2"
+                    >
+                      Answers
+                      <FaExternalLinkAlt />
+                    </Link>
                   </th>
                   <td className="px-6 py-4 cursor-pointer">
                     {template.isPublic ? (

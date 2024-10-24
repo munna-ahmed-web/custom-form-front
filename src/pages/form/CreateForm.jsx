@@ -4,9 +4,12 @@ import { getTemplateById } from "../../api/templateRequest";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { createForm } from "../../api/formRequest";
-
+import { createComment, getComment } from "../../api/commentRequest";
 //icons
 import { FaExternalLinkAlt } from "react-icons/fa";
+import { hoursAgo } from "../../utils/utils";
+import PulseSkeleton from "../../components/loader/PulseSkeleton";
+import SkeletonLoader from "../../components/loader/SkeletonLoader";
 
 const initialFormState = {
   template: "",
@@ -19,7 +22,18 @@ const CreateForm = () => {
   const [template, setTemplate] = useState("");
   const [formState, setFormState] = useState(initialFormState);
   const [answerList, setAnswerList] = useState([]);
+  const [commentText, setCommentText] = useState("");
+  const [commentList, setCommentList] = useState([]);
   const { templateId } = useParams();
+
+  const fetchComment = async () => {
+    try {
+      const res = await getComment(templateId);
+      setCommentList(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     const fetchTemplate = async () => {
@@ -32,6 +46,7 @@ const CreateForm = () => {
             template: res.data._id,
           };
         });
+        fetchComment();
       } catch (error) {
         console.log(error);
       }
@@ -83,12 +98,39 @@ const CreateForm = () => {
       console.log(error);
     }
   };
-  console.log(template);
+
+  const handleSubmitComment = async (e) => {
+    e.preventDefault();
+    if (!user.id) {
+      return toast.error("Please log in first");
+    }
+    if (!templateId) {
+      return toast.error("Template is not available");
+    }
+    const payload = {
+      template: templateId,
+      user: user.id,
+      text: commentText,
+    };
+    try {
+      const res = await createComment(payload);
+      setCommentText("");
+      toast.success("Success");
+      fetchComment();
+    } catch (error) {
+      toast.error("Something went wrong");
+      console.log(error);
+    }
+  };
+
   return (
     <div className="bg-gray-100 min-h-screen">
-      <div className="flex justify-center">
-        <h1 className="text-center mt-4 text-xl">Form Fill Up</h1>
+      <div>
+        <div className="flex justify-center">
+          <h1 className="text-center mt-4 text-xl">Form Fill Up</h1>
+        </div>
       </div>
+
       <div className="flex gap-x-3 py-3 w-9/12 mx-auto ">
         <div className="w-[85%] mx-auto">
           {template?._id && (
@@ -104,9 +146,9 @@ const CreateForm = () => {
           )}
           <div className="mt-3 bg-gray-200 p-5 rounded-md shadow-md">
             {template?.title && (
-              <h1 className="text-lg font-bold pb-1">{template?.title}</h1>
+              <h1 className="text-lg font-bold pb-1">{template.title}</h1>
             )}
-            {template?.description && <p>{template?.description}</p>}
+            {template?.description && <p>{template.description}</p>}
           </div>
 
           <div className="mt-3 bg-gray-200 p-5 rounded-md shadow-md">
@@ -131,11 +173,70 @@ const CreateForm = () => {
                 })}
             <div className="pt-2">
               <button
-                className="bg-gray-500 px-3 py-2 rounded-md text-white hover:bg-gray-400 mr-3"
+                className="px-6 py-2 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
                 onClick={handleSubmit}
               >
                 Submit
               </button>
+            </div>
+          </div>
+
+          {/* -----------------------------comment section--------------------------------  */}
+          <div className="mt-3 bg-gray-200 p-5 rounded-md shadow-md">
+            <form onSubmit={handleSubmitComment}>
+              <label className="block text-lg font-medium text-gray-700 mb-2">
+                Leave a Comment
+              </label>
+              <div className="flex  items-center gap-4">
+                <textarea
+                  rows="3"
+                  className="w-[70%] px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none"
+                  placeholder="Type your comment..."
+                  value={commentText}
+                  required
+                  onChange={(e) => setCommentText(e.target.value)}
+                />
+
+                <div>
+                  <button
+                    type="submit"
+                    className="px-6 py-2 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
+                  >
+                    Send
+                  </button>
+                </div>
+              </div>
+            </form>
+            {/* -------------------Comment list------------------------- */}
+            <div className="mt-2">
+              {commentList.length ? (
+                commentList.map((item) => {
+                  return (
+                    <div class="max-w-full border px-6 py-2 rounded-lg bg-gray-100 mb-1">
+                      <div class="flex items-center mb-2">
+                        <img
+                          src="https://randomuser.me/api/portraits/men/97.jpg"
+                          alt="Avatar"
+                          class="w-12 h-12 rounded-full mr-4"
+                        />
+                        <div>
+                          <div class="text-lg font-medium text-gray-800">
+                            {item.user.name}
+                          </div>
+                          <div class="text-gray-500">
+                            {hoursAgo(item.createdAt)}
+                          </div>
+                        </div>
+                      </div>
+                      <p class="text-lg leading-relaxed">{item.text}</p>
+                    </div>
+                  );
+                })
+              ) : (
+                <p class="text-lg leading-relaxed">
+                  Comments are not available for this template
+                </p>
+              )}
             </div>
           </div>
         </div>
