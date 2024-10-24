@@ -9,11 +9,11 @@ const TemplateManageByUser = () => {
   const { id } = useSelector((state) => state.userInfo);
 
   const fetchTemplates = async () => {
+    const loadId = toast.loading("fetching...");
     try {
-      const loadId = toast.loading("fetching...");
       const res = await getTemplateByUserId(id);
-      toast.dismiss(loadId);
       setTemplateList(res.data);
+      toast.dismiss(loadId);
     } catch (error) {
       toast.dismiss(loadId);
       toast.error("Something wrong");
