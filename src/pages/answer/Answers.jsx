@@ -19,6 +19,7 @@ const Answers = () => {
         toast.dismiss(loadId);
         setAnswersList(res.data);
       } catch (error) {
+        toast.dismiss(loadId);
         toast.error("Something wrong while fetching forms");
         console.log(error);
       }
