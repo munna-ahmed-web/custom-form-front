@@ -12,6 +12,7 @@ import CreateTemplate from "../pages/template/CreateTemplate";
 import TemplateManageByUser from "../pages/template/TemplateManageByUser";
 import CreateForm from "../pages/form/CreateForm";
 import Answers from "../pages/answer/Answers";
+import EditAnswer from "../pages/answer/EditAnswer";
 
 const router = createBrowserRouter([
   {
@@ -75,6 +76,14 @@ const router = createBrowserRouter([
         element: (
           <AuthGuard>
             <Answers />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: "answer/edit/:id",
+        element: (
+          <AuthGuard>
+            <EditAnswer />
           </AuthGuard>
         ),
       },

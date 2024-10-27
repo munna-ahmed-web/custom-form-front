@@ -3,13 +3,11 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { getTemplateById } from "../../api/templateRequest";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { createForm } from "../../api/formRequest";
+import { createForm, getFormById } from "../../api/formRequest";
 import { createComment, getComment } from "../../api/commentRequest";
 //icons
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { hoursAgo } from "../../utils/utils";
-import PulseSkeleton from "../../components/loader/PulseSkeleton";
-import SkeletonLoader from "../../components/loader/SkeletonLoader";
 
 const initialFormState = {
   template: "",
