@@ -47,11 +47,11 @@ const Answers = () => {
                   <div>
                     {userId && (
                       <p className="p-1 font-bold">
-                        Template: {item.template.title}
+                        Template: {item?.template?.title}
                       </p>
                     )}
                     <p className="p-1 font-bold">
-                      Answered by: {item.user.name}
+                      Answered by: {item?.user?.name}
                     </p>
                   </div>
                   <div>
