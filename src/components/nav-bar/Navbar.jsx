@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 // react icons
+import { FaTicketAlt } from "react-icons/fa";
+import { FcCustomerSupport } from "react-icons/fc";
+import { MdGeneratingTokens } from "react-icons/md";
 import { IoIosSearch } from "react-icons/io";
 import { CiMenuFries } from "react-icons/ci";
 import { IoIosArrowUp } from "react-icons/io";
@@ -30,7 +33,11 @@ const ResponsiveNavbar = () => {
     const token = localStorage.getItem("token");
     if (token) {
       const decodedToken = jwtDecode(token);
-      dispatch(addUserInfo(decodedToken));
+      const payload = {
+        ...decodedToken,
+        accessToken: token,
+      };
+      dispatch(addUserInfo(payload));
     }
   }, []);
 
@@ -103,14 +110,32 @@ const ResponsiveNavbar = () => {
                     Forms
                   </p>
                 </Link>
-                <p className="flex items-center gap-[5px] rounded-md p-[8px] pr-[45px] py-[3px] text-[1rem] text-gray-600 hover:bg-gray-50">
+                <Link to={`/salesforce/${user.id}`}>
+                  <p className="flex items-center gap-[5px] rounded-md p-[8px] pr-[45px] py-[3px] text-[1rem] text-gray-600 hover:bg-gray-50">
+                    <FcCustomerSupport />
+                    Salesforce
+                  </p>
+                </Link>
+                <Link to={"/token"}>
+                  <p className="flex items-center gap-[5px] rounded-md p-[8px] pr-[45px] py-[3px] text-[1rem] text-gray-600 hover:bg-gray-50">
+                    <MdGeneratingTokens />
+                    API Token
+                  </p>
+                </Link>
+                <Link to={"/ticket"}>
+                  <p className="flex items-center gap-[5px] rounded-md p-[8px] pr-[45px] py-[3px] text-[1rem] text-gray-600 hover:bg-gray-50">
+                    <FaTicketAlt />
+                    Ticket
+                  </p>
+                </Link>
+                {/* <p className="flex items-center gap-[5px] rounded-md p-[8px] pr-[45px] py-[3px] text-[1rem] text-gray-600 hover:bg-gray-50">
                   <IoSettingsOutline />
                   Settings
                 </p>
                 <p className="flex items-center gap-[5px] rounded-md p-[8px] pr-[45px] py-[3px] text-[1rem] text-gray-600 hover:bg-gray-50">
                   <FiUser />
                   View Profile
-                </p>
+                </p> */}
 
                 <div className="mt-3 border-t border-gray-200 pt-[5px]">
                   <p

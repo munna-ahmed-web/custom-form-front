@@ -13,6 +13,10 @@ import TemplateManageByUser from "../pages/template/TemplateManageByUser";
 import CreateForm from "../pages/form/CreateForm";
 import Answers from "../pages/answer/Answers";
 import EditAnswer from "../pages/answer/EditAnswer";
+import ConnectToSalesForce from "../pages/CRM/ConnectToSalesForce";
+import GenerateToken from "../pages/Token/GenerateToken";
+import Jira from "../pages/Jira/Jira";
+import CreateTicket from "../pages/Jira/CreateTicket";
 
 const router = createBrowserRouter([
   {
@@ -84,6 +88,38 @@ const router = createBrowserRouter([
         element: (
           <AuthGuard>
             <EditAnswer />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: "salesforce/:userId",
+        element: (
+          <AuthGuard>
+            <ConnectToSalesForce />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: "token",
+        element: (
+          <AuthGuard>
+            <GenerateToken />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: "ticket",
+        element: (
+          <AuthGuard>
+            <Jira />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: "ticket-create/:userId",
+        element: (
+          <AuthGuard>
+            <CreateTicket />
           </AuthGuard>
         ),
       },

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { getTemplateByUserId } from "../../api/templateRequest";
 import toast from "react-hot-toast";
 import TemplateTableList from "../../components/template/TemplateTableList";
+import { Link } from "react-router-dom";
 
 const TemplateManageByUser = () => {
   const [templateList, setTemplateList] = useState([]);
