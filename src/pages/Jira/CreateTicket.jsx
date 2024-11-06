@@ -32,6 +32,7 @@ const CreateTicket = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(jiraState);
     try {
       setTicketUrl("");
       setLoading(true);
