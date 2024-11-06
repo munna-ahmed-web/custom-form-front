@@ -119,13 +119,13 @@ const ResponsiveNavbar = () => {
                 <Link to={"/token"}>
                   <p className="flex items-center gap-[5px] rounded-md p-[8px] pr-[45px] py-[3px] text-[1rem] text-gray-600 hover:bg-gray-50">
                     <MdGeneratingTokens />
-                    API Token
+                    ODOO Token
                   </p>
                 </Link>
                 <Link to={"/ticket"}>
                   <p className="flex items-center gap-[5px] rounded-md p-[8px] pr-[45px] py-[3px] text-[1rem] text-gray-600 hover:bg-gray-50">
                     <FaTicketAlt />
-                    Ticket
+                    JIRA Ticket
                   </p>
                 </Link>
                 {/* <p className="flex items-center gap-[5px] rounded-md p-[8px] pr-[45px] py-[3px] text-[1rem] text-gray-600 hover:bg-gray-50">
