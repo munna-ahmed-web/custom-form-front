@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import "react-phone-input-2/lib/style.css";
 import { useParams } from "react-router-dom";
 import { getUserInfoById } from "../../api/userRequest";
 import toast from "react-hot-toast";
 import { BeatLoader } from "react-spinners";
 import { createTicket } from "../../api/jiraRequest";
+import { getData } from "../../utils/apiService";
 
 const initialState = {
-  reportBy: "",
+  name: "",
   title: "",
   description: "",
   priority: "",
@@ -17,6 +17,8 @@ const initialState = {
 const CreateTicket = () => {
   const [jiraState, setJiraState] = useState(initialState);
   const [loading, setLoading] = useState(false);
+  const [priorityList, setPriorityList] = useState([]);
+  const [ticketUrl, setTicketUrl] = useState("");
   const { userId } = useParams();
 
   const handleChange = (e) => {
@@ -31,11 +33,21 @@ const CreateTicket = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const link = await createTicket(jiraState);
-      toast.success("Success");
-      console.log(link);
+      setTicketUrl("");
+      setLoading(true);
+      const response = await createTicket(jiraState);
+      toast.success("Successfully created");
+      setLoading(false);
+      setTicketUrl(response.data.data.self);
+      setJiraState((prev) => {
+        return {
+          ...prev,
+          title: "",
+          description: "",
+        };
+      });
     } catch (error) {
-      toast.error("error");
+      toast.error("Something went wrong");
       console.log(error);
     }
   };
@@ -46,7 +58,7 @@ const CreateTicket = () => {
       setJiraState((prev) => {
         return {
           ...prev,
-          reportBy: data.name || "",
+          name: data.name || "",
           email: data.email || "",
         };
       });
@@ -56,8 +68,18 @@ const CreateTicket = () => {
     }
   };
 
+  const fetchPriorityList = async () => {
+    try {
+      const res = await getData("/priority");
+      setPriorityList(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchUserInfo();
+    fetchPriorityList();
   }, []);
 
   return (
@@ -65,22 +87,11 @@ const CreateTicket = () => {
       <div className="flex justify-center">
         <h1 className="text-center mt-4 text-xl">Create Ticket</h1>
       </div>
-      <div className="flex gap-x-3 py-3 w-9/12 mx-auto ">
+      <div className="py-3 w-9/12 mx-auto ">
         <form className="w-full" onSubmit={handleSubmit}>
-          <div className="w-[50%] mx-auto">
+          <div className="w-full mx-auto lg:w-[50%]">
             <div>
-              <label className="block p-1">Reported By:</label>
-              <input
-                required
-                type="text"
-                name="reportBy"
-                value={jiraState.reportBy}
-                onChange={handleChange}
-                className="border w-full p-2 rounded"
-              />
-            </div>
-            <div>
-              <label className="block p-1">Title</label>
+              <label className="block p-1">Summary</label>
               <input
                 required
                 type="text"
@@ -94,7 +105,6 @@ const CreateTicket = () => {
               <div>
                 <label className="block p-1">Description</label>
                 <textarea
-                  required
                   name="description"
                   value={jiraState.description}
                   onChange={handleChange}
@@ -111,25 +121,14 @@ const CreateTicket = () => {
                 className="border w-full p-2 rounded"
               >
                 <option value="">--Select Priority--</option>
-                <option value="High">High</option>
-                <option value="Average">Average</option>
-                <option value="Low">Low</option>
-              </select>
-            </div>
-            <div>
-              <label className="block p-1">Status:</label>
-              <select
-                required
-                name="status"
-                value={jiraState.status}
-                onChange={handleChange}
-                className="border w-full p-2 rounded"
-              >
-                <option value="">--Select Status--</option>
-                <option value="Opened">Opened</option>
-                <option value="In progress">In progress</option>
-                <option value="Rejected">Rejected</option>
-                <option value="Fixed">Fixed</option>
+                {priorityList.length &&
+                  priorityList.map((item) => {
+                    return (
+                      <option key={item.id} value={item.id}>
+                        {item.name}
+                      </option>
+                    );
+                  })}
               </select>
             </div>
             <div>
@@ -137,7 +136,7 @@ const CreateTicket = () => {
             </div>
             <div className="mt-4">
               <button
-                className="bg-primary px-3 py-2 rounded-md text-white hover:bg-[#39339e]"
+                className="bg-primary px-4 py-2 rounded-md text-white hover:bg-[#39339e]"
                 type="submit"
               >
                 Create
@@ -145,6 +144,19 @@ const CreateTicket = () => {
             </div>
           </div>
         </form>
+        {ticketUrl && (
+          <div class="p-4 mt-5 bg-gray-100 rounded-lg shadow-md max-w-md mx-auto">
+            <p class="text-gray-700 font-semibold mb-2">Your ticket link:</p>
+            <a
+              href={ticketUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 font-medium underline break-all cursor-pointer"
+            >
+              {ticketUrl}
+            </a>
+          </div>
+        )}
       </div>
     </div>
   );
