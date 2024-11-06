@@ -12,7 +12,7 @@ const initialState = {
   description: "",
   priority: "",
   status: "",
-  link: window.location.href,
+  link: "",
 };
 const CreateTicket = () => {
   const [jiraState, setJiraState] = useState(initialState);
@@ -81,6 +81,12 @@ const CreateTicket = () => {
   useEffect(() => {
     fetchUserInfo();
     fetchPriorityList();
+  }, []);
+  useEffect(() => {
+    setJiraState((prevState) => ({
+      ...prevState,
+      link: window.location.href,
+    }));
   }, []);
 
   return (
